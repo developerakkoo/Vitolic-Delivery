@@ -1,0 +1,60 @@
+.Login_images{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    // height: 100%;
+    // flex-direction: column;
+}
+.Login_Forms img{
+    width: 200px;
+    height: auto;
+    // margin-top: 15%;
+    // margin-bottom: 2%;
+}
+.Login h2{
+    font-weight: 300;
+
+}
+.forgot{
+    justify-content: end;
+    display: flex;
+    color: #4B67CC;
+    margin-right: 10px;
+}
+
+// .Login_Form{
+//     margin-top: 2%;
+// }
+.show-error{
+    padding-top: 0.2rem;
+    color: red;
+    font-size: 12px;
+}
+.Login_text h5{
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+    // margin-top: 5%;
+    margin-bottom: 0px;
+ 
+}
+.btnne{
+    background-color: #fff;
+    box-shadow: none;
+    color: #4B67CC;
+    text-align: center;
+   
+}
+
+
+.Input_mail{
+    border: 1px solid #21AD4B;
+    border-radius: 20px;
+    color: #000;
+    
+
+}
+// .Footer{
+//     background-color: #21AD4B;
+// }

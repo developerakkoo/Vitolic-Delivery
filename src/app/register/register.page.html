@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="Login_Forms ">
+  <div class="Login_images">
+    <img src="assets/logo.png"> 
+  </div>
+  <div class="Login">
+    <ion-title class="ion-text-center" color="warning"><h2>Sign-Up</h2></ion-title>
+  </div>
+  
+     <div class=" Login_Form">
+      <form [formGroup]="SignUpForm" (ngSubmit)="onSubmit()" novalidate>
+     <ion-list class="">
+    
+      <ion-input placeholder="User Name"formControlName="name" class="Input_mail" color="primary"></ion-input>
+  
+  <small *ngIf="SignUpForm.get('name').invalid && (SignUpForm.get('name').dirty ||SignUpForm.get('name').touched )">
+    <small *ngIf="(SignUpForm.get('name')).errors?.required">Name is required</small>
+    question mark(?) is a safe navigation operator
+    <small *ngIf="(SignUpForm.get('name')).errors?.minlength">Please enter more than 4 character</small>
+  </small>
+    </ion-list>
+  <ion-list  class="">
+      <ion-input type="text" formControlName="password"class="Input_mail " placeholder="Password" >
+      </ion-input>
+    <small *ngIf="SignUpForm.get('password').invalid && (SignUpForm.get('password').dirty ||SignUpForm.get('password').touched )">
+      <small *ngIf="(SignUpForm.get('password')).errors?.required">password is required</small>
+      question mark(?) is a safe navigation operator
+      <small *ngIf="(SignUpForm.get('password')).errors?.minlength">Please enter more than 4 character</small>
+    </small>
+  </ion-list>
+  <ion-list class="">
+    
+    <ion-input placeholder="Email"formControlName="email" class="Input_mail " color="primary"></ion-input>
+
+<small *ngIf="SignUpForm.get('email').invalid && (SignUpForm.get('email').dirty ||SignUpForm.get('email').touched )">
+  <small *ngIf="(SignUpForm.get('email')).errors?.required">Email is required</small>
+  question mark(?) is a safe navigation operator
+  <small *ngIf="(SignUpForm.get('email')).errors?.minlength">Please enter Valid Email</small>
+</small>
+  </ion-list>
+     
+        
+       
+         
+       
+      </form>
+      </div> 
+      <ion-text color="dark" >
+        <div class="Login_text ion-margin-top" >
+        <h5>Don’t Have any Account ?
+         </h5>
+  
+       <h6 (click)="Login()" class="btnne">  Login </h6>
+       </div>
+      </ion-text>
+  </div>
+  
+  </ion-content>
+  
+<ion-footer>
+  <ion-toolbar color="primary" style="padding: 10px;">
+    <ion-title class="ion-text-center" (click)="getSignup()">
+      Register
+    </ion-title>
+   </ion-toolbar>
+</ion-footer>
