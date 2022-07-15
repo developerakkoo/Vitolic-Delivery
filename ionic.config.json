@@ -1,0 +1,7 @@
+{
+  "name": "vitolic-delivery",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
