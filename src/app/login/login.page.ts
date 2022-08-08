@@ -1,7 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {FormsModule,ReactiveFormsModule} from '@angular/forms';
+import { AuthService } from '../services/auth.service';
+import { environment } from 'src/environments/environment.prod';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -12,7 +15,11 @@ export class LoginPage implements OnInit {
   LoginForm:any=FormGroup;
   form: any=FormGroup;
   submitted = false;
-  constructor(private router: Router,private formBuilder: FormBuilder,private fb: FormBuilder) { }
+  constructor(private router: Router,
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
+    private auth: AuthService,
+    private fb: FormBuilder) { }
 
   ngOnInit() {
     this.LoginForm = this.formBuilder.group({
@@ -23,8 +30,18 @@ export class LoginPage implements OnInit {
     })
   }
 
-  getlogin(){
-    this.router.navigate(['assigend-orders'])
+  login(){
+    let body = {
+      email: this.LoginForm.name,
+      password: this.LoginForm.password
+    }
+     this.http.post(environment.API +'/boy/login', body).subscribe((login) =>{
+      console.log(login);
+      
+     }, (error) =>{
+      console.log(error);
+      
+     })
     
   }
   get errorCtr() {

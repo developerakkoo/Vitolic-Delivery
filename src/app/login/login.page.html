@@ -11,33 +11,25 @@
   
 </div>
   <div class="Login">
-    <ion-title class="ion-text-center" color="warning"><h2>Login</h2></ion-title>
+    <ion-title class="ion-text-center" color="primary"><h2>Login</h2></ion-title>
   </div>
 
   <div class=" Login_Form">
     <form [formGroup]="LoginForm" (ngSubmit)="onSubmit()" novalidate>
    <ion-list class="">
   
-    <ion-input placeholder="User Name"formControlName="name" class="Input_mail " color="primary"></ion-input>
+    <ion-input placeholder="User Name"formControlName="name" ></ion-input>
 
-<small *ngIf="LoginForm.get('name').invalid && (LoginForm.get('name').dirty ||LoginForm.get('name').touched )">
-  <small *ngIf="(LoginForm.get('name')).errors?.required">Name is required</small>
-  question mark(?) is a safe navigation operator
-  <small *ngIf="(LoginForm.get('name')).errors?.minlength">Please enter more than 4 character</small>
-</small>
+
   </ion-list>
 <ion-list  class="">
-    <ion-input type="text" formControlName="password"class="Input_mail " placeholder="Password" >
+    <ion-input type="text" formControlName="password"  placeholder="Password" >
     </ion-input>
- 
-  <small *ngIf="LoginForm.get('password').invalid && (LoginForm.get('password').dirty ||LoginForm.get('password').touched )">
-    <small *ngIf="(LoginForm.get('password')).errors?.required">password is required</small>
-    question mark(?) is a safe navigation operator
-    <small *ngIf="(LoginForm.get('password')).errors?.minlength">Please enter more than 4 character</small>
-  </small>
+<!--  
+  
   <div class="forgot">
     <p>Forgot Password</p>
-  </div>
+  </div> -->
 
 </ion-list>
    
@@ -47,22 +39,22 @@
      
     </form>
     </div>
-    <ion-text color="dark" >
+    <!-- <ion-text color="dark" >
       <div class="Login_text ion-margin-top" >
       <h5>Don’t Have any Account ?
        </h5>
 
      <h6 (click)="Signup()" class="btnne">  Signup </h6>
      </div>
-    </ion-text>
+    </ion-text> -->
 </div>
 
 </ion-content>
 
 <ion-footer >
   <ion-toolbar color="primary" style="padding: 10px;">
-   <ion-title class="ion-text-center" (click)="getlogin()">
+ <ion-button color="light" (click)="login()" expand="full" fill="clear">
   Login
-   </ion-title>
+ </ion-button>
   </ion-toolbar>
 </ion-footer>
