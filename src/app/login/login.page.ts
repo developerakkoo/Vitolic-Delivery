@@ -1,3 +1,4 @@
+import { LoadingController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -18,28 +19,46 @@ export class LoginPage implements OnInit {
   constructor(private router: Router,
     private formBuilder: FormBuilder,
     private http: HttpClient,
+    private loadingController: LoadingController,
     private auth: AuthService,
     private fb: FormBuilder) { }
 
   ngOnInit() {
     this.LoginForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
+      name: ['boy@test.com', [Validators.required]],
       // email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
       // dob: [],
-      password: ['', [Validators.required]]
+      password: ['test123', [Validators.required]]
     })
   }
 
-  login(){
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Loading',
+      duration: 2000,
+      spinner: 'bubbles'
+    });
+    await loading.present();
+  }
+  async login(){
+    this.presentLoading();
     let body = {
-      email: this.LoginForm.name,
-      password: this.LoginForm.password
+      email: this.LoginForm.value.name,
+      password: this.LoginForm.value.password
     }
-     this.http.post(environment.API +'/boy/login', body).subscribe((login) =>{
+     this.http.post(environment.API +'/boy/login', body)
+     
+     .subscribe((login) =>
+     {
       console.log(login);
+      this.loadingController.dismiss();
+      this.router.navigate(['home'])
+
       
      }, (error) =>{
       console.log(error);
+      this.loadingController.dismiss();
+
       
      })
     

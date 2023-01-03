@@ -1,7 +1,9 @@
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment.prod';
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { LaunchNavigator, LaunchNavigatorOptions } from '@awesome-cordova-plugins/launch-navigator/ngx';
-import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
 import { Socket } from 'ngx-socket-io';
+import * as  moment from 'moment';
 
 @Component({
   selector: 'app-home',
@@ -12,28 +14,32 @@ export class HomePage {
 
   orders = []
 
+  today;
 
-  constructor(private launchNavigator: LaunchNavigator,
-    private barcodeScanner: BarcodeScanner,
+  constructor(
+    private http: HttpClient,
+    private router: Router,
     private io: Socket) {
       this.io.connect();
+      this.today = moment().format('YYYY-MM-DD');
+      this.getAllCart(this.today);
     }
 
+    getAllCart(today){
+      this.http.get(environment.API +`/cart/delivery/${today}`)
+      .subscribe(async (order) =>{
+        console.log(order);
+        this.orders = order['cart'];
+        
+      }, async(error) =>
+      {
+        console.log(error);
+        
+      })
 
-    scan(){
-      this.barcodeScanner.scan().then(barcodeData => {
-        console.log('Barcode data', barcodeData);
-       }).catch(err => {
-           console.log('Error', err);
-       });
     }
-  openGoogleMaps(){
-    this.launchNavigator.navigate([1,1]).then((succes) =>{
-      console.log(succes);
-      
-    }).catch((error) =>{
-      console.log(error);
-      
-    })
+
+    orderDetails(order){
+      this.router.navigate(['order-detail', order._id]);
+    }
   }
-}

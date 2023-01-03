@@ -14,93 +14,76 @@
   <ion-icon name="chevron-forward-outline"></ion-icon>
   </ion-item>
 </ion-content> -->
-<ion-header>
+<ion-header class="scanner-hide">
   <ion-toolbar  color="primary">
-    <ion-title>Order ID</ion-title>
+    <ion-title>{{orderId}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="!isLoading" class="scanner-hide">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-list>
+          <ion-list-header>
+            <ion-label>Products</ion-label>
+          </ion-list-header>
+          <ion-item  *ngFor="let item of products">
+            <ion-avatar slot="start">
+              <img [src]="item.imageUrl" />
+            </ion-avatar>
+            <ion-label> {{item.title | uppercase}} x {{item.amount}} = {{item.discountedPrice| currency:"INR"}} </ion-label>
+          </ion-item>
+        
+          <ion-text class="ion-text-right" color="tertiary">
+            <p>Total:- {{orderTotal | currency:"INR"}} </p>
+          </ion-text>
+        </ion-list>
+  
+        <ion-list>
+          <ion-list-header>
+            <ion-label>Shipping Details</ion-label>
+          </ion-list-header>
+          <ion-label slot="start">
+            <p><strong>Full Name:</strong><span> {{username | uppercase}} </span></p>
+            <p><strong>Email:</strong><span> {{email}} </span></p>
+            <p><strong>Address:</strong><span> {{userAddress |uppercase}}, {{add2 | uppercase}}, {{add3 |uppercase}}, {{city | uppercase}}, {{pincode}}. </span></p>
+          </ion-label>
+        
+        </ion-list>
+        
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+  
+  
+    
+  </ion-content>
+  
+  <div class="scanner-ui">
+    <div class="container">
+      <div class="barcode-scanner--area--container">
+        <div class="relative">
+          <p>Aim your camera at a barcode</p>
+        </div>
+        <div class="square surround-cover">
+          <div class="barcode-scanner--area--outer surround-cover">
+            <div class="barcode-scanner--area--inner"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<div class="Select_Location">
-  <ion-toolbar>
-    <ion-title color="warning" ><h1>Item</h1></ion-title>
+<ion-footer>
+  <ion-toolbar color="success">
+    <ion-buttons slot="end">
+     
+      <ion-button (click)="startScan()">
+        <ion-icon slot="start" name="barcode"></ion-icon>
+        Scan
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
-</div>
-<div>
-  <ion-card>
-
-    <ion-grid>
-   
-    
-      <ion-row>
-        <ion-col size="5">
-         <ion-img src="assets/panner 1 (1).png"></ion-img>
-        </ion-col>
-        <ion-col>
-        <h3 class="panner" style="    margin-top: 0;">panner</h3>
-        <p>$200</p>
-        </ion-col>
-        
-      </ion-row>
-    </ion-grid>
-  
-  </ion-card>
-  
-  <ion-card class="ion-margin-top">
-
-    <ion-grid>
-   
-    
-      <ion-row>
-        <ion-col size="5">
-         <ion-img src="assets/panner 1 (1).png"></ion-img>
-        </ion-col>
-        <ion-col>
-        <h3 class="panner" style="    margin-top: 0;">panner</h3>
-        <p>$200</p>
-        </ion-col>
-        
-      </ion-row>
-    </ion-grid>
- 
-  </ion-card>
-</div>
-<div class="ion-padding-top">
-  <ion-title>Address</ion-title>
-  <ion-list>
-    <ion-grid>
-      <ion-row>
-        <ion-col size="4">
-       <h5>Name:</h5>
-        </ion-col>
-        <ion-col>
-        <h5 class="panner" style="    margin-top: 20px;">Akshay XXXXX</h5>
-      
-        </ion-col>
-        
-      </ion-row>
-    </ion-grid>
-  </ion-list>
-</div>
-<div>
- 
-
-   
-    
-      <ion-row>
-        <ion-col size="4">
-       <h5>Address:</h5>
-        </ion-col>
-        <ion-col>
-        <h5 class="panner" style=" margin-top: 20px;">XXXX XXX XXX</h5>
-      
-        </ion-col>
-        <ion-col>
-         <ion-button><p>Open Scanne</p></ion-button>
-          </ion-col>
-        
-      </ion-row>
-  
-</div>
-</ion-content>
+</ion-footer>
