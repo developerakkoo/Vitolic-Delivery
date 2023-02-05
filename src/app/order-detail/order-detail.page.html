@@ -16,8 +16,11 @@
 </ion-content> -->
 <ion-header class="scanner-hide">
   <ion-toolbar  color="primary">
-    <ion-title>{{orderId}}</ion-title>
+    <ion-title>OrderId {{orderId}}</ion-title>
   </ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-back-button defaultHref="home"></ion-back-button>
+  </ion-buttons>
 </ion-header>
 
 <ion-content *ngIf="!isLoading" class="scanner-hide">

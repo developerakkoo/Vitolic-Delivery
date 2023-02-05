@@ -5,6 +5,7 @@ import { AlertController, LoadingController, ToastController } from '@ionic/angu
 import { HttpClient } from '@angular/common/http';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import * as  moment from 'moment';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-order-detail',
   templateUrl: './order-detail.page.html',
@@ -13,6 +14,7 @@ import * as  moment from 'moment';
 export class OrderDetailPage implements OnInit {
 
   _id;
+  subId;
   order;
   orderId;
   products: any[];
@@ -26,7 +28,8 @@ export class OrderDetailPage implements OnInit {
   email;
 
   isLoading: boolean = true;
-
+  orderDeliveredSub: Subscription;
+  subOrderDeleteSub: Subscription;
   constructor(
 
     private http: HttpClient,
@@ -36,12 +39,18 @@ export class OrderDetailPage implements OnInit {
     private router: Router,
     private route: ActivatedRoute) {
       this._id = this.route.snapshot.paramMap.get("id");
+      this.subId = this.route.snapshot.paramMap.get("subId");
       this.getOrder(this._id);
-      console.log(moment().format("YYYY-MM-DD"));
+      console.log(moment().add(1,'d').format("YYYY-MM-DD"));
       
      }
 
   ngOnInit() {
+  }
+
+  ionViewDidLeave(){
+    this.orderDeliveredSub.unsubscribe();
+    this.subOrderDeleteSub.unsubscribe();
   }
 
   async getOrder(id){
@@ -55,7 +64,7 @@ export class OrderDetailPage implements OnInit {
       this.add3 = cart['cart']['address']['landmark'];
       this.city = cart['cart']['address']['city'];
       this.pincode = cart['cart']['address']['pincode'];
-      this.orderTotal = cart['cart']['total'];
+      this.orderTotal = cart['cart']['products'][0]['discountedPrice'];
       this.products = cart['cart']['products'];
       this.username = cart['cart']['userId']['fName'];
       this.email = cart['cart']['userId']['email'];
@@ -117,10 +126,9 @@ export class OrderDetailPage implements OnInit {
   async scan(id){
     let loading = await this.loadingController.create({
       message:"Please wait...",
-      duration: 9000
     });
     await loading.present();
-    let today = moment().format("YYYY-MM-DD");
+    let today = moment().add(1, 'day').format("YYYY-MM-DD");
     let totalPrice = this.products['amount'] * this.products['discountedPrice'];
     let body = {
       today: today,
@@ -128,16 +136,27 @@ export class OrderDetailPage implements OnInit {
     }
 
     console.log(body);
+    this.presentToast(today);
 
-      this.http.put(environment.API +'/deliver/'+ id, body).subscribe(async (done) =>{
+    this.orderDeliveredSub =   this.http.put(environment.API +'/deliver/'+ id, body).subscribe(async (done) =>{
         console.log(done);
+
+       this.subOrderDeleteSub = this.http.delete(environment.API + '/suborder/'+this.subId)
+       .subscribe(async (data) =>{
+        await loading.dismiss();
         this.presentAlertSuccess("Order Successfully Delivered!", "Success", "Order Completed");
         
+       })
       }, async(error) =>{
         console.log(error);
+        await loading.dismiss();
+
     this.presentToast("Something went wrong.");
 
         
+      },async()=>{
+        await loading.dismiss();
+
       })
       
     

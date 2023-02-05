@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { IonicStorageModule } from '@ionic/storage-angular';
-const config: SocketIoConfig = { url: 'https://api.consign.co.in', options: {} };
+const config: SocketIoConfig = { url: 'https://api.vitolicfoods.com', options: {} };
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 
 @NgModule({

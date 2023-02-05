@@ -7,8 +7,13 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-list>
-    
+    <ion-list-header *ngIf="orders.length == 0">
+      <ion-label>No Orders Today!</ion-label>
+    </ion-list-header>
     <ion-item class="ion-margin-top animate__animated animate__fadeInUp animate__delay-2s" *ngFor="let item of orders" (click)="orderDetails(item)">
       <!-- <ion-avatar slot="start">
         <img src="../../assets/images/panner 1 (1).png">

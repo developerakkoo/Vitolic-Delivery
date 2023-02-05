@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
@@ -14,7 +15,8 @@ export class HomePage {
 
   orders = []
 
-  today;
+  today = "2023-02-06";
+  getCartSub:Subscription;
 
   constructor(
     private http: HttpClient,
@@ -25,11 +27,16 @@ export class HomePage {
       this.getAllCart(this.today);
     }
 
+    ionViewDidLeave(){
+      console.log("Home leave");
+      this.getCartSub.unsubscribe();
+    }
+
     getAllCart(today){
-      this.http.get(environment.API +`/cart/delivery/${today}`)
+     this.getCartSub =  this.http.get(environment.API +`/suborder/2023-02-06/422101`)
       .subscribe(async (order) =>{
         console.log(order);
-        this.orders = order['cart'];
+        this.orders = order['sub'];
         
       }, async(error) =>
       {
@@ -38,8 +45,15 @@ export class HomePage {
       })
 
     }
+    handleRefresh(event) {
+      setTimeout(() => {
+        // Any calls to load data go here
+        event.target.complete();
+        this.getAllCart(this.today);
+      }, 2000);
+    };
 
     orderDetails(order){
-      this.router.navigate(['order-detail', order._id]);
+      this.router.navigate(['order-detail', order.mainOrderId, order._id]);
     }
   }
