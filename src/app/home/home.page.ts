@@ -15,7 +15,7 @@ export class HomePage {
 
   orders = []
 
-  today = "2023-02-06";
+  today = "2023-02-07";
   getCartSub:Subscription;
 
   constructor(
@@ -32,8 +32,15 @@ export class HomePage {
       this.getCartSub.unsubscribe();
     }
 
+    dateEvent(ev){
+      console.log(ev.detail.value);
+      
+    }
+
+
     getAllCart(today){
-     this.getCartSub =  this.http.get(environment.API +`/suborder/2023-02-06/422101`)
+     this.getCartSub =  
+     this.http.get(environment.API +`/suborder/2023-03-09/422101`)
       .subscribe(async (order) =>{
         console.log(order);
         this.orders = order['sub'];

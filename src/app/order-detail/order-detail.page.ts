@@ -31,7 +31,6 @@ export class OrderDetailPage implements OnInit {
   orderDeliveredSub: Subscription;
   subOrderDeleteSub: Subscription;
   constructor(
-
     private http: HttpClient,
     private alertController: AlertController,
     private toastController: ToastController,
@@ -129,7 +128,7 @@ export class OrderDetailPage implements OnInit {
     });
     await loading.present();
     let today = moment().add(1, 'day').format("YYYY-MM-DD");
-    let totalPrice = this.products['amount'] * this.products['discountedPrice'];
+    let totalPrice = this.orderTotal;
     let body = {
       today: today,
       price: totalPrice
