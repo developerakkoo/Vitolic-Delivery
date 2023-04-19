@@ -5,6 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import * as  moment from 'moment';
+import { ModalController } from '@ionic/angular';
+import { OrderDetailPage } from '../order-detail/order-detail.page';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +23,7 @@ export class HomePage {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private modalController: ModalController,
     private io: Socket) {
       this.io.connect();
       this.today = moment().format('YYYY-MM-DD');
@@ -54,13 +57,35 @@ export class HomePage {
     }
     handleRefresh(event) {
       setTimeout(() => {
-        // Any calls to load data go here
+        // Any calls to load data go here`
         event.target.complete();
         this.getAllCart(this.today);
       }, 2000);
     };
 
+    async presentModal(order) {
+      const modal = await this.modalController.create({
+      component: OrderDetailPage,
+      componentProps: { mainOrderId: order.mainOrderId, orderId: order._id }
+      });
+    
+      await modal.present();
+    
+    }
+
     orderDetails(order){
-      this.router.navigate(['order-detail', order.mainOrderId, order._id]);
+      this.presentModal(order)
+      // this.router.navigate(['order-detail', order.mainOrderId, order._id]);
+    }
+
+    cancel() {
+    }
+  
+    confirm() {
+    }
+  
+    onWillDismiss(event: any) {
+      const ev = event as CustomEvent<string>;
+      
     }
   }

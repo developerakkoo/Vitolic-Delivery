@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import * as  moment from 'moment';
@@ -13,10 +13,11 @@ import { Subscription } from 'rxjs';
 })
 export class OrderDetailPage implements OnInit {
 
+  @Input() mainOrderId;
+  @Input() orderId;
   _id;
   subId;
-  order;
-  orderId;
+   order;
   products: any[];
   orderTotal;
   userAddress;
@@ -36,15 +37,17 @@ export class OrderDetailPage implements OnInit {
     private toastController: ToastController,
     private loadingController: LoadingController,
     private router: Router,
+    private modalCtrl: ModalController,
     private route: ActivatedRoute) {
-      this._id = this.route.snapshot.paramMap.get("id");
-      this.subId = this.route.snapshot.paramMap.get("subId");
-      this.getOrder(this._id);
+      // this._id = this.route.snapshot.paramMap.get("id");
+      // this.subId = this.route.snapshot.paramMap.get("subId");
+      // this.getOrder(this._id);
       console.log(moment().add(1,'d').format("YYYY-MM-DD"));
       
      }
 
   ngOnInit() {
+    this.getOrder(this.mainOrderId);
   }
 
   ionViewDidLeave(){
@@ -79,6 +82,10 @@ export class OrderDetailPage implements OnInit {
     }, ()=>{
       this.isLoading = false;
     })
+  }
+
+  dismiss(){
+    this.modalCtrl.dismiss();
   }
 
   async presentAlertSuccess(msg: string, header: string, subHeader: string) {
@@ -123,10 +130,14 @@ export class OrderDetailPage implements OnInit {
     BarcodeScanner.stopScan();
   }
   async scan(id){
-    let loading = await this.loadingController.create({
+    let loading = await this.loadingController
+    .create({
       message:"Please wait...",
     });
     await loading.present();
+
+    if(id == this.orderId){
+
     let today = moment().add(1, 'day').format("YYYY-MM-DD");
     let totalPrice = this.orderTotal;
     let body = {
@@ -157,6 +168,12 @@ export class OrderDetailPage implements OnInit {
         await loading.dismiss();
 
       })
+
+    }
+
+    else if(id != this.orderId){
+      this.presentToast("You are scanning a wrong order Id");
+    }
       
     
   }

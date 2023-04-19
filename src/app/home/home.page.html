@@ -16,13 +16,16 @@
       <ion-label>No Orders Today!</ion-label>
     </ion-list-header>
     <ion-item class="ion-margin-top animate__animated animate__fadeInUp animate__delay-2s" *ngFor="let item of orders" (click)="orderDetails(item)">
-      <!-- <ion-avatar slot="start">
-        <img src="../../assets/images/panner 1 (1).png">
-      </ion-avatar> -->
+      <ion-avatar slot="start">
+        <img [src]="item?.billId?.products[0]?.imageUrl">
+      </ion-avatar>
       <ion-label><h5>Order ID - {{item.orderId}}</h5>
         <p>Date:  {{item.createdAt | date:"shortDate"}} </p>
   </ion-label>
         <ion-icon name="chevron-forward-outline"></ion-icon>
       </ion-item>
     </ion-list>
+
+
+    
 </ion-content>

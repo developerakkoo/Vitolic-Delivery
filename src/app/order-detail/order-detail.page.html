@@ -1,26 +1,13 @@
-<!-- <ion-header>
-  <ion-toolbar>
-    <ion-title>Order ID</ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content>
-  <ion-item class="ion-margin-top">
-    <ion-avatar slot="start">
-      <img src="../../assets/images/panner 1 (1).png">
-    </ion-avatar>
-    <ion-label><h5>Order ID - 76KRG455HHYJ42FGD</h5>
-  </ion-label>
-  <ion-icon name="chevron-forward-outline"></ion-icon>
-  </ion-item>
-</ion-content> -->
 <ion-header class="scanner-hide">
   <ion-toolbar  color="primary">
     <ion-title>OrderId {{orderId}}</ion-title>
+
+  <ion-button color="light" slot="end" fill="clear" (click)="dismiss()">
+    <ion-icon slot="icon-only" name="close"></ion-icon>
+  </ion-button>
   </ion-toolbar>
-  <ion-buttons slot="start">
-    <ion-back-button defaultHref="home"></ion-back-button>
-  </ion-buttons>
+
 </ion-header>
 
 <ion-content *ngIf="!isLoading" class="scanner-hide">
@@ -60,10 +47,6 @@
   </ion-grid>
   
   
-  
-    
-  </ion-content>
-  
   <div class="scanner-ui">
     <div class="container">
       <div class="barcode-scanner--area--container">
@@ -78,6 +61,10 @@
       </div>
     </div>
   </div>
+    
+  </ion-content>
+  
+ 
 
 <ion-footer>
   <ion-toolbar color="success">
